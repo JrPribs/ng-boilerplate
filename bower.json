@@ -1,6 +1,6 @@
 {
   "name": "ng-boilerplate",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "homepage": "http://github.com/ianwalter/ng-boilerplate",
   "main": "index.html",
   "authors": [
@@ -16,8 +16,5 @@
     "angular": "v1.2.11",
     "angular-route": "v1.2.11",
     "angular-mocks": "v1.2.11"
-  },
-  "resolutions": {
-    "angular": "v1.2.11"
   }
 }

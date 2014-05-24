@@ -8,8 +8,6 @@ var path = require('path'),
     jshint = require('gulp-jshint'),
     minifyCSS = require('gulp-minify-css'),
     protractor = require("gulp-protractor").protractor,
-    child_process = require('child_process'),
-    webdriverManager,
     mode,
     WATCH_MODE = 'watch',
     RUN_MODE = 'run';
@@ -76,18 +74,6 @@ gulp.task('protractor', function() {
     .on('error', function() {});
 });
 
-gulp.task('start-webdriver', ['update-webdriver'], function() {
-  webdriverManager = child_process.spawn(path.resolve('./node_modules/.bin/webdriver-manager'), ['start']);
-});
-
-gulp.task('update-webdriver', function() {
-  child_process.spawn(path.resolve('./node_modules/.bin/webdriver-manager'), ['update']);
-});
-
-gulp.task('kill-webdriver', function() {
-  webdriverManager.kill('SIGHUP');
-});
-
 function build(debug) {
   var jsTask = debug ? 'copy-js' : 'uglify-js',
       templateTask = debug ? 'copy-template' : 'minify-template';
@@ -107,7 +93,7 @@ gulp.task('default', ['watch-mode', 'uglify-js', 'myth', 'minify-template', 'lin
 
 gulp.task('debug', ['watch-mode', 'copy-js', 'copy-css', 'copy-template', 'lint', 'karma', 'protractor'], build(true));
 
-gulp.task('server', ['default'], function() {
+gulp.task('connect', function() {
   gulp.watch(['public/**/*', 'index.html'], function() {
     gulp.src(['public/**/*', 'index.html'])
       .pipe(connect.reload());
@@ -118,7 +104,9 @@ gulp.task('server', ['default'], function() {
   });
 });
 
-gulp.task('kill-server', function() {
+gulp.task('server', ['connect', 'default']);
+
+gulp.task('kill-connect', function() {
   connect.serverClose();
 });
 
@@ -130,4 +118,4 @@ gulp.task('watch-mode', function() {
   mode = WATCH_MODE;
 });
 
-gulp.task('test', ['run-mode', 'start-webdriver', 'server', 'uglify-js', 'protractor', 'kill-server', 'kill-webdriver']);
+gulp.task('test', ['run-mode', 'connect', 'uglify-js', 'protractor', 'kill-connect']);

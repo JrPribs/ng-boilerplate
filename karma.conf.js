@@ -6,8 +6,8 @@ module.exports = function(config) {
   var testFiles = [
     'public/js/requirejs-config.js',
     'test/unit/js/test-main.js',
-    { pattern: 'public/js/**/*.js', included: false },
-    { pattern: 'public/lib/**/*.js', included: false }
+    { pattern: 'public/lib/**/*.js', included: false },
+    { pattern: 'public/js/**/*.js', included: false }
   ];
 
   if (process.argv[4]) { // TODO this should be more robust by checking the actual argument name

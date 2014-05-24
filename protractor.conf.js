@@ -1,8 +1,8 @@
 exports.config = {
-  seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['test/ui/**/*.spec.js'],
-  seleniumServerJar: './node_modules/protractor/node_modules/selenium/selenium-server-standalone-2.39.0.jar',
+  seleniumServerJar: './node_modules/protractor/selenium/selenium-server-standalone-2.41.0.jar',
+  //seleniumAddress: 'http://localhost:4444/wd/hub', // Using JAR instead of address
   capabilities: {
     'browserName': 'phantomjs'
-  }
+  },
+  specs: ['test/ui/**/*.spec.js']
 };
