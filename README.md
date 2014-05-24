@@ -15,13 +15,17 @@
 	* [Karma](http://karma-runner.github.io/) - JavaScript unit test runner
 	* [Mocha](http://visionmedia.github.io/mocha/) - Testing framework
 	* [Chai](http://chaijs.com/) - Super-flexible assertion library
+	* [Protractor](https://github.com/angular/protractor/) - End-to-end test runner
 
 
 #### Instructions:
-* Install bower using ```sudo npm install bower -g```. Then run bower in the ng-boilerplate directory to install front-end dependencies: ```bower install```.
+* Install bower using ```sudo npm install bower -g```. Then run bower in the ng-boilerplate directory to install 
+  front-end dependencies: ```bower install```.
 * Install gulp using ```sudo npm install gulp -g```. Then install the gulp plugins: ```npm install```.
 * Run ```gulp``` to compile, minify, lint and test front-end assets.
 * Run ```gulp debug``` while you are developing so that you can use the unminified version of your assets.
+* Run ```gulp server``` if you want the default task run and your files served by a development HTTP server 
+  (includes livereload!)
 * Run ```gulp test``` to execute a single run of tests.
 
 
