@@ -8,11 +8,11 @@ define(
       .directive('nameFormat', ['NameService', function(NameService) {
         return {
           scope: {
-            value: '='
+            ngValue: '='
           },
           template: '<span class="name">{{ formattedValue }}</span>',
           link: function($scope) {
-            $scope.$watch('value', function(value) {
+            $scope.$watch('ngValue', function(value) {
                 $scope.formattedValue = value && value.length ? 'Well ' + NameService.formatName(value) + ',': '';
             });
           }

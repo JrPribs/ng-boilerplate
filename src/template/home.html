@@ -75,16 +75,23 @@
       </div>
       <br>
       <p>
-        <input type="text" class="form-control name-input" placeholder="Your name" ng-model="nameService.name" />
+        <input type="text" class="form-control name-input" placeholder="Enter your name" ng-model="nameService.name" />
       </p>
       <br>
+      <div name-format ng-value="nameService.name"></div>
+      <p>I hope you find this useful!</p>
       <p>
-        <div name-format value="nameService.name"></div>
-        <br>
-        I hope you find this useful!<br>
         «–– <a href="http://ianvonwalter.com">Ian</a>
       </p>
-      <br>
+      <footer>
+        <ul class="list-inline">
+          <li><a href="http://ianvonwalter.com">Von Walter</a></li>
+          <li>·</li>
+          <li><a href="https://github.com/ianwalter/ng-boilerplate">GitHub</a></li>
+          <li>·</li>
+          <li><a href="http://angularforum.com">Angular Forum</a></li>
+        </ul>
+      </footer>
     </div>
   </div>
 </div>
