@@ -6,7 +6,7 @@
 * **Application**
 	* [RequireJS](http://requirejs.org/) - JavaScript file and module loader
 	* [Bootstrap](http://getbootstrap.com/) - Front-end CSS framework
-	* [LESS](http://lesscss.org/) - CSS pre-processor
+	* [Myth](http://myth.io/) - CSS pre-processor
 	* [Bower](http://bower.io/) - Front-end package manager
 	* [Gulp](http://gulpjs.com/) - Streaming build system
 

@@ -8,9 +8,11 @@ var path = require('path'),
     jshint = require('gulp-jshint'),
     minifyCSS = require('gulp-minify-css'),
     protractor = require("gulp-protractor").protractor,
-    mode,
+    debug = false,
     WATCH_MODE = 'watch',
     RUN_MODE = 'run';
+
+var mode = WATCH_MODE;
 
 function changeNotification(event) {
   console.log('File', event.path, 'was', event.type, ', running tasks...');
@@ -74,9 +76,11 @@ gulp.task('protractor', function() {
     .on('error', function() {});
 });
 
-function build(debug) {
+function build() {
   var jsTask = debug ? 'copy-js' : 'uglify-js',
       templateTask = debug ? 'copy-template' : 'minify-template';
+
+  console.log('template task', templateTask);
 
   var jsWatcher = gulp.watch('src/js/**/*.js', [jsTask, 'karma', 'protractor']),
       cssWatcher = gulp.watch('src/css/**/*.css', ['myth']),
@@ -89,9 +93,9 @@ function build(debug) {
   testWatcher.on('change', changeNotification);
 }
 
-gulp.task('default', ['watch-mode', 'uglify-js', 'myth', 'minify-template', 'lint', 'karma', 'protractor'], build());
+gulp.task('default', ['uglify-js', 'myth', 'minify-template', 'lint', 'karma', 'protractor'], build);
 
-gulp.task('debug', ['watch-mode', 'copy-js', 'copy-css', 'copy-template', 'lint', 'karma', 'protractor'], build(true));
+gulp.task('debug', ['debug-mode', 'copy-js', 'copy-css', 'copy-template', 'lint', 'karma', 'protractor'], build);
 
 gulp.task('connect', function() {
   gulp.watch(['public/**/*', 'index.html'], function() {
@@ -114,8 +118,8 @@ gulp.task('run-mode', function() {
   mode = RUN_MODE;
 });
 
-gulp.task('watch-mode', function() {
-  mode = WATCH_MODE;
+gulp.task('debug-mode', function() {
+  debug = true;
 });
 
 gulp.task('test', ['run-mode', 'connect', 'uglify-js', 'protractor', 'kill-connect']);
