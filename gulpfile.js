@@ -7,6 +7,7 @@ var path = require('path'),
     karma = require('gulp-karma'),
     jshint = require('gulp-jshint'),
     minifyCSS = require('gulp-minify-css'),
+    webdriverUpdate = require("gulp-protractor").webdriver_update,
     protractor = require("gulp-protractor").protractor,
     debug = false,
     WATCH_MODE = 'watch',
@@ -67,7 +68,7 @@ gulp.task('karma', function() {
     }));
 });
 
-gulp.task('protractor', function() {
+gulp.task('protractor', ['webdriver-update'], function() {
   gulp.src(["./src/tests/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
@@ -75,6 +76,8 @@ gulp.task('protractor', function() {
     }))
     .on('error', function() {});
 });
+
+gulp.task('webdriver-update', webdriverUpdate);
 
 function build() {
   var jsTask = debug ? 'copy-js' : 'uglify-js',
