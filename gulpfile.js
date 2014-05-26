@@ -80,8 +80,6 @@ function build() {
   var jsTask = debug ? 'copy-js' : 'uglify-js',
       templateTask = debug ? 'copy-template' : 'minify-template';
 
-  console.log('template task', templateTask);
-
   var jsWatcher = gulp.watch('src/js/**/*.js', [jsTask, 'karma', 'protractor']),
       cssWatcher = gulp.watch('src/css/**/*.css', ['myth']),
       htmlWatcher = gulp.watch('src/template/**/*.html', [templateTask, 'protractor']),
