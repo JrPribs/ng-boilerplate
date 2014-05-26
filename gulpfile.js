@@ -68,13 +68,18 @@ gulp.task('karma', function() {
     }));
 });
 
-gulp.task('protractor', ['webdriver-update'], function() {
+gulp.task('protractor', ['webdriver-update'], function(cb) {
   gulp.src(["./src/tests/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
       args: ['--baseUrl', 'http://127.0.0.1:8080']
     }))
-    .on('error', function() {});
+    .on('end', function() {
+      cb();
+    })
+    .on('error', function(err) {
+      cb(err);
+    });
 });
 
 gulp.task('webdriver-update', webdriverUpdate);
@@ -111,7 +116,7 @@ gulp.task('connect', function() {
 
 gulp.task('server', ['connect', 'default']);
 
-gulp.task('kill-connect', function() {
+gulp.task('kill-connect', ['protractor'], function() {
   connect.serverClose();
 });
 
@@ -123,4 +128,4 @@ gulp.task('debug-mode', function() {
   debug = true;
 });
 
-gulp.task('test', ['run-mode', 'connect', 'uglify-js', 'protractor', 'kill-connect']);
+gulp.task('test', ['run-mode', 'connect', 'uglify-js', 'karma', 'protractor', 'kill-connect']);

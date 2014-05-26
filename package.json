@@ -1,6 +1,6 @@
 {
   "name": "ng-boilerplate",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A base for front-end development with AngularJS",
   "main": "index.html",
   "scripts": {
