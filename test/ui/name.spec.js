@@ -1,5 +1,5 @@
-describe('angularjs homepage', function() {
-  it('should greet the named user', function() {
+describe('Typing a name into the name input', function() {
+  it('should display a greeting containing the inputted name', function() {
     browser.get('http://localhost:8080/');
 
     element(by.className('name-input')).sendKeys('Zelda');

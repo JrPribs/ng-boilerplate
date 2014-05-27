@@ -65,20 +65,21 @@ gulp.task('karma', function() {
     .pipe(karma({
       configFile: 'karma.conf.js',
       action: mode
-    }));
+    }))
+    .on('error', function() {});
 });
 
-gulp.task('protractor', ['webdriver-update'], function(cb) {
+gulp.task('protractor', ['webdriver-update'], function(callback) {
   gulp.src(["./src/tests/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
       args: ['--baseUrl', 'http://127.0.0.1:8080']
     }))
     .on('end', function() {
-      cb();
+      callback();
     })
     .on('error', function(err) {
-      cb(err);
+      callback(err);
     });
 });
 
