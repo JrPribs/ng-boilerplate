@@ -1,4 +1,4 @@
-requirejs.config(requirejsConfig);
+requirejs.config(window.requirejsConfig);
 
 require([
   'angular',
