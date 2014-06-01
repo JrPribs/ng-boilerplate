@@ -16,38 +16,29 @@ var path = require('path'),
 var mode = WATCH_MODE;
 
 gulp.task('js', function() {
-  if (debug) {
-    gulp.src('src/js/**/*.js')
-      .pipe(gulp.dest('public/js'));
-  } else {
-    gulp.src('src/js/**/*.js')
-      .pipe(uglify())
-      .pipe(gulp.dest('public/js'));
+  var jsTask = gulp.src('src/js/**/*.js');
+  if (!debug) {
+    jsTask.pipe(uglify());
   }
+  jsTask.pipe(gulp.dest('public/js'));
 });
 
 gulp.task('template', function() {
-  if (debug) {
-    gulp.src('src/template/**/*.html')
-      .pipe(gulp.dest('public/template'));
-  } else {
-    gulp.src('src/template/**/*.html')
-      .pipe(htmlmin({ collapseWhitespace: true }))
-      .pipe(gulp.dest('public/template'));
+  var templateTask = gulp.src('src/template/**/*.html');
+  if (!debug) {
+    templateTask.pipe(htmlmin({ collapseWhitespace: true }));
   }
+  templateTask.pipe(gulp.dest('public/template'));
 });
 
 gulp.task('css', function() {
-  if (debug) {
-    gulp.src('src/css/**/*.css')
-      .pipe(myth())
-      .pipe(gulp.dest('public/css'));
-  } else {
-    gulp.src('src/css/**/*.css')
-      .pipe(myth())
-      .pipe(minifyCSS())
-      .pipe(gulp.dest('public/css'));
+  var cssTask = gulp.src('src/css/**/*.css')
+    .pipe(myth())
+    .pipe(gulp.dest('public/css'));
+  if (!debug) {
+    cssTask.pipe(minifyCSS());
   }
+  cssTask.pipe(gulp.dest('public/css'));
 });
 
 gulp.task('lint', function() {
@@ -105,7 +96,7 @@ function changeNotification(event) {
   console.log('File', event.path, 'was', event.type, ', running tasks...');
 }
 
-function build() {
+function watch() {
   var jsWatcher = gulp.watch('src/js/**/*.js', ['js', 'lint', 'karma', 'protractor']),
       cssWatcher = gulp.watch('src/css/**/*.css', ['css']),
       htmlWatcher = gulp.watch('src/template/**/*.html', ['template', 'protractor']),
@@ -117,8 +108,10 @@ function build() {
   testWatcher.on('change', changeNotification);
 }
 
-gulp.task('default', ['js', 'css', 'template', 'lint', 'karma', 'protractor'], build);
+gulp.task('all', ['js', 'lint', 'karma', 'protractor']);
+
+gulp.task('default', ['all'], watch);
 
 gulp.task('server', ['connect', 'default']);
 
-gulp.task('test', ['run-mode', 'debug', 'connect', 'js', 'karma', 'protractor', 'kill-connect']);
+gulp.task('test', ['run-mode', 'debug', 'connect', 'all', 'kill-connect']);
