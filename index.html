@@ -10,15 +10,12 @@
     
     <title>ng-boilerplate</title>
 
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="public/css/app.css" />
 
     <script type="text/javascript" src="public/js/requirejs-config.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js" data-main="public/js/main"></script>
+    <script src="public/lib/requirejs/require.js" data-main="public/js/main"></script>
   </head>
   <body>
-    <div class="ng-boilerplate container-fluid">
-      <div ng-view ng-cloak></div>
-    </div>
+    <section ng-view ng-cloak class="ng-boilerplate"></section>
   </body>
 </html>

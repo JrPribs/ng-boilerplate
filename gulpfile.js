@@ -1,12 +1,13 @@
 var path = require('path'),
     gulp = require('gulp'),
     uglify = require('gulp-uglify'),
-    myth = require('gulp-myth'),
     htmlmin = require('gulp-htmlmin'),
     connect = require('gulp-connect'),
     karma = require('gulp-karma'),
     jshint = require('gulp-jshint'),
     minifyCSS = require('gulp-minify-css'),
+    sass = require('gulp-sass'),
+    imagemin = require('gulp-imagemin'),
     webdriverUpdate = require("gulp-protractor").webdriver_update,
     protractor = require("gulp-protractor").protractor,
     debug = false,
@@ -20,7 +21,8 @@ gulp.task('js', function() {
   if (!debug) {
     jsTask.pipe(uglify());
   }
-  jsTask.pipe(gulp.dest('public/js'));
+  jsTask.pipe(gulp.dest('public/js'))
+    .pipe(connect.reload());
 });
 
 gulp.task('template', function() {
@@ -28,17 +30,32 @@ gulp.task('template', function() {
   if (!debug) {
     templateTask.pipe(htmlmin({ collapseWhitespace: true }));
   }
-  templateTask.pipe(gulp.dest('public/template'));
+  templateTask.pipe(gulp.dest('public/template'))
+    .pipe(connect.reload());
 });
 
 gulp.task('css', function() {
-  var cssTask = gulp.src('src/css/**/*.css')
-    .pipe(myth())
-    .pipe(gulp.dest('public/css'));
+  var options = {
+    errLogToConsole: true
+  };
+  if (!debug) {
+    options.outputStyle = 'expanded';
+    options.sourceComments = 'map';
+  }
+  var cssTask = gulp.src('src/sass/app.scss')
+    .pipe(sass(options));
   if (!debug) {
     cssTask.pipe(minifyCSS());
   }
-  cssTask.pipe(gulp.dest('public/css'));
+  cssTask.pipe(gulp.dest('public/css'))
+    .pipe(connect.reload());
+});
+
+gulp.task('image', function () {
+  return gulp.src('src/image/**.*')
+    .pipe(imagemin())
+    .pipe(gulp.dest('public/image'))
+    .pipe(connect.reload());
 });
 
 gulp.task('lint', function() {
@@ -70,8 +87,8 @@ gulp.task('protractor', ['webdriver-update'], function(callback) {
 });
 
 gulp.task('connect', function() {
-  gulp.watch(['public/**/*', 'index.html'], function() {
-    gulp.src(['public/**/*', 'index.html'])
+  gulp.watch(['index.html'], function() {
+    gulp.src(['index.html'])
       .pipe(connect.reload());
   });
 
@@ -98,17 +115,19 @@ function changeNotification(event) {
 
 function watch() {
   var jsWatcher = gulp.watch('src/js/**/*.js', ['js', 'lint', 'karma', 'protractor']),
-      cssWatcher = gulp.watch('src/css/**/*.css', ['css']),
+      cssWatcher = gulp.watch('src/sass/**/*.scss', ['css']),
+      imageWatcher = gulp.watch('src/image/**/*', ['image']),
       htmlWatcher = gulp.watch('src/template/**/*.html', ['template', 'protractor']),
       testWatcher = gulp.watch('test/**/*.js', ['karma', 'protractor']);
 
   jsWatcher.on('change', changeNotification);
   cssWatcher.on('change', changeNotification);
+  imageWatcher.on('change', changeNotification);
   htmlWatcher.on('change', changeNotification);
   testWatcher.on('change', changeNotification);
 }
 
-gulp.task('all', ['js', 'lint', 'karma', 'protractor']);
+gulp.task('all', ['css', 'js', 'lint', 'image', 'karma', 'protractor']);
 
 gulp.task('default', ['all'], watch);
 
