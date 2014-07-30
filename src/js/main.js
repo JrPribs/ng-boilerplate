@@ -1,8 +1,28 @@
 requirejs.config(window.requirejsConfig);
 
-require([
-  'angular',
-  'js/app'
-], function (angular) {
-  angular.bootstrap(document, ['ng-boilerplate']);
-});
+define(
+  [
+    'angular',
+    'angular-route',
+    'js/controller/home-controller'
+  ],
+  function(angular) {
+    'use strict';
+
+    angular
+      .module('ng-boilerplate', ['ngRoute', 'ng-boilerplate.home-controller'])
+      .config(['$routeProvider', '$sceProvider', function($routeProvider, $sceProvider) {
+        $routeProvider
+          .when('/', {
+            controller: 'HomeController',
+            templateUrl: 'public/template/home.html'
+          })
+          .otherwise({ redirectTo: '/' });
+
+        // Disables Strict Contextual Escaping for IE8 compatibility
+        $sceProvider.enabled(false);
+      }]);
+
+    angular.bootstrap(document, ['ng-boilerplate']);
+  }
+);
