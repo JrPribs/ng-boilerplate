@@ -12,7 +12,8 @@ define(
       .config([
         '$routeProvider',
         '$sceProvider',
-        function($routeProvider, $sceProvider) {
+        '$locationProvider',
+        function($routeProvider, $sceProvider, $locationProvider) {
           $routeProvider
             .when('/', {
               controller: 'HomeController',
@@ -22,6 +23,11 @@ define(
 
           // Disables Strict Contextual Escaping for IE8 compatibility
           $sceProvider.enabled(false);
+
+          // Only use html5Mode for modern browsers
+          if (window.history && history.pushState) {
+            $locationProvider.html5Mode(true);
+          }
         }
       ]);
   }
