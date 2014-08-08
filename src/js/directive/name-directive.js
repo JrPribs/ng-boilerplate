@@ -13,7 +13,8 @@ define(
           template: '<span class="name">{{ formattedValue }}</span>',
           link: function($scope) {
             $scope.$watch('ngValue', function(value) {
-                $scope.formattedValue = value && value.length ? 'Well ' + NameService.formatName(value) + ',': '';
+                $scope.formattedValue = value && value.length ? 'Well ' +
+                  NameService.formatName(value) + ',': '';
             });
           }
         };

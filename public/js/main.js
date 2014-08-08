@@ -1,1 +1,1 @@
-requirejs.config(window.requirejsConfig),require(["angular","js/app"],function(e){e.bootstrap(document,["ng-boilerplate"])});
+!function(i){"use strict";i.config(window.requirejsConfig),require(["angular","js/app"],function(i){i.bootstrap(document,["ng-boilerplate"])})}(window.requirejs);

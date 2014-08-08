@@ -1,4 +1,4 @@
-var requirejsConfig = {
+var requirejsConfig = { // jshint ignore:line
   baseUrl: 'public/',
   paths: {
     'angular': [

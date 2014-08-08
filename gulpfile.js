@@ -5,6 +5,7 @@ var path = require('path'),
     connect = require('gulp-connect'),
     karma = require('gulp-karma'),
     jshint = require('gulp-jshint'),
+    stylish = require('jshint-stylish'),
     minifyCSS = require('gulp-minify-css'),
     sass = require('gulp-sass'),
     imagemin = require('gulp-imagemin'),
@@ -61,7 +62,7 @@ gulp.task('image', function () {
 gulp.task('lint', function() {
   gulp.src('src/js/**/*.js')
     .pipe(jshint())
-    .pipe(jshint.reporter('default'));
+    .pipe(jshint.reporter('jshint-stylish'));
 });
 
 gulp.task('karma', function() {
@@ -127,7 +128,7 @@ function watch() {
   testWatcher.on('change', changeNotification);
 }
 
-gulp.task('all', ['css', 'js', 'lint', 'image', 'karma', 'protractor']);
+gulp.task('all', ['css', 'js', 'lint', 'image', 'protractor']);
 
 gulp.task('default', ['all'], watch);
 
