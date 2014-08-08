@@ -78,7 +78,7 @@ gulp.task('karma', function() {
 
 gulp.task('webdriver-update', webdriverUpdate);
 
-gulp.task('protractor', ['webdriver-update'], function(done) {
+gulp.task('protractor', function(done) {
   gulp.src(["./src/tests/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
