@@ -5,7 +5,6 @@ var path = require('path'),
     connect = require('gulp-connect'),
     karma = require('gulp-karma'),
     jshint = require('gulp-jshint'),
-    stylish = require('jshint-stylish'),
     minifyCSS = require('gulp-minify-css'),
     sass = require('gulp-sass'),
     imagemin = require('gulp-imagemin'),
@@ -14,6 +13,7 @@ var path = require('path'),
     debug = false,
     WATCH_MODE = 'watch',
     RUN_MODE = 'run';
+require('jshint-stylish');
 
 var mode = WATCH_MODE;
 
@@ -128,7 +128,7 @@ function watch() {
   testWatcher.on('change', changeNotification);
 }
 
-gulp.task('all', ['css', 'js', 'lint', 'image', 'protractor']);
+gulp.task('all', ['css', 'js', 'lint', 'image', 'protractor', 'karma']);
 
 gulp.task('default', ['all'], watch);
 
