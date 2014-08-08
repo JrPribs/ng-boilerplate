@@ -12,9 +12,12 @@
     "node_modules"
   ],
   "dependencies": {
-    "requirejs": "~2.1.10",
-    "angular": "v1.2.11",
-    "angular-route": "v1.2.11",
-    "angular-mocks": "v1.2.11"
+    "requirejs": "~2.1.14",
+    "angular": "v1.2.21",
+    "angular-route": "v1.2.21",
+    "angular-mocks": "v1.2.21"
+  },
+  "resolutions": {
+    "angular": ">=1.2.0"
   }
 }

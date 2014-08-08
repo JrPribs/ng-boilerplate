@@ -6,6 +6,17 @@
   "scripts": {
     "test": "gulp test"
   },
+  "window": {
+    "title": "ng-boilerplate",
+    "toolbar": false,
+    "resizable": true,
+    "frame": true,
+    "width": 800,
+    "height": 500,
+    "window": "mouse",
+    "min_width": 400,
+    "min_height": 200
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/ianwalter/ng-boilerplate.git"
