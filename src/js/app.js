@@ -13,7 +13,7 @@ define(
         '$routeProvider',
         '$sceProvider',
         '$locationProvider',
-        function($routeProvider, $sceProvider, $locationProvider) {
+        function($routeProvider, $sceProvider, $locationProvider) { // jshint ignore:line
           $routeProvider
             .when('/', {
               controller: 'HomeController',
