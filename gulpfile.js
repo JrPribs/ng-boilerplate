@@ -102,8 +102,8 @@ gulp.task('connect', function(done) {
   if (mode === RUN_MODE) {
     setTimeout(function() {
       done();
-      process.exit(1);
-    }, 20000);
+      process.exit(0);
+    }, 10000);
   }
 });
 
