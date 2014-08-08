@@ -17,6 +17,8 @@
     * [Mocha](http://visionmedia.github.io/mocha/) - Testing framework
     * [Chai](http://chaijs.com/) - Super-flexible assertion library
     * [Protractor](https://github.com/angular/protractor/) - End-to-end test runner
+* **Style**
+    * [airbnb/javascript](https://github.com/airbnb/javascript/) - JavaScript Style Guide
 
 
 #### Instructions:
