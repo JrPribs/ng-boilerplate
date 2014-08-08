@@ -14,6 +14,8 @@ var path = require('path'),
     WATCH_MODE = 'watch',
     RUN_MODE = 'run';
 
+require('jshint-stylish');
+
 var mode = WATCH_MODE;
 
 gulp.task('js', function() {
