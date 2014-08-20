@@ -1,6 +1,8 @@
 # [ng-boilerplate](http://ianwalter.github.io/ng-boilerplate/)
 *A base for front-end development with AngularJS.*
 
+[ ![Codeship Status for ianwalter/ng-boilerplate](https://www.codeship.io/projects/e461ca20-0a23-0132-5936-0ae363ad2316/status)](https://www.codeship.io/projects/31717)
+
 #### ng-boilerplate includes:
 * **Application**
     * [RequireJS](http://requirejs.org/) - JavaScript file and module loader

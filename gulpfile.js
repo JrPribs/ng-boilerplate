@@ -8,13 +8,11 @@ var path = require('path'),
     minifyCSS = require('gulp-minify-css'),
     sass = require('gulp-sass'),
     imagemin = require('gulp-imagemin'),
-    webdriverUpdate = require("gulp-protractor").webdriver_update,
+    webdriverUpdate = require('gulp-protractor').webdriver_update,
     protractor = require("gulp-protractor").protractor,
     debug = false,
     WATCH_MODE = 'watch',
     RUN_MODE = 'run';
-
-require('jshint-stylish');
 
 var mode = WATCH_MODE;
 
@@ -78,7 +76,7 @@ gulp.task('karma', function() {
 
 gulp.task('webdriver-update', webdriverUpdate);
 
-gulp.task('protractor', function(done) {
+gulp.task('protractor', ['webdriver-update'], function(done) {
   gulp.src(["./src/tests/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
