@@ -1,6 +1,6 @@
 {
   "name": "ng-boilerplate",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A base for front-end development with AngularJS",
   "main": "index.html",
   "scripts": {
@@ -28,6 +28,7 @@
     "gulp-minify-css": "^0.3.4",
     "gulp-protractor": "0.0.11",
     "gulp-sass": "^0.7.1",
+    "gulp-selenium": "0.0.2",
     "gulp-uglify": "^0.1.0",
     "gulp-util": "^2.2.20",
     "jshint-stylish": "^0.4.0",

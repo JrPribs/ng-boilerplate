@@ -9,15 +9,15 @@ define(
 
       beforeEach(module('ng-boilerplate'));
 
-      var nameService;
-      beforeEach(inject(function (NameService) {
-        nameService = NameService;
+      var NameService;
+      beforeEach(inject(function (_NameService_) {
+        NameService = _NameService_;
       }));
 
       describe('#formatName()', function() {
         it('should title case a given string', function() {
-          expect(nameService.formatName('IAN')).to.equal('Ian');
-          expect(nameService.formatName('bill murray')).to.equal('Bill Murray');
+          expect(NameService.formatName('IAN')).to.equal('Ian');
+          expect(NameService.formatName('bill murray')).to.equal('Bill Murray');
         });
       });
 

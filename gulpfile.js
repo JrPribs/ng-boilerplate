@@ -8,7 +8,6 @@ var path = require('path'),
     minifyCSS = require('gulp-minify-css'),
     sass = require('gulp-sass'),
     imagemin = require('gulp-imagemin'),
-    webdriverUpdate = require('gulp-protractor').webdriver_update,
     protractor = require("gulp-protractor").protractor,
     debug = false,
     WATCH_MODE = 'watch',
@@ -74,9 +73,7 @@ gulp.task('karma', function() {
     .on('error', function() {});
 });
 
-gulp.task('webdriver-update', webdriverUpdate);
-
-gulp.task('protractor', ['webdriver-update'], function(done) {
+gulp.task('protractor', function(done) {
   gulp.src(["./src/tests/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
