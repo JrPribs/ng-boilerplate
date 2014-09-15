@@ -74,7 +74,7 @@ gulp.task('karma', function() {
 });
 
 gulp.task('protractor', function(done) {
-  gulp.src(["./src/test/ui/**/*.js"])
+  gulp.src(["test/ui/**/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
       args: ['--baseUrl', 'http://127.0.0.1:8080']
@@ -108,33 +108,31 @@ gulp.task('connect', function() {
 
 gulp.task('watch-mode', function() {
   mode = WATCH_MODE;
-});
 
-gulp.task('debug', function() {
-  debug = true;
-});
-
-function watch() {
   var jsWatcher = gulp.watch('src/js/**/*.js',
-        ['js']),
-      cssWatcher = gulp.watch('src/sass/**/*.scss', ['css', 'protractor']),
-      imageWatcher = gulp.watch('src/image/**/*', ['image']),
-      htmlWatcher = gulp.watch('src/template/**/*.html',
-        ['template', 'protractor']),
-      testWatcher = gulp.watch('test/**/*.js', ['karma', 'protractor']);
-
-  function changeNotification(event) {
-    console.log('File', event.path, 'was', event.type, ', running tasks...');
-  }
+      ['js']),
+    cssWatcher = gulp.watch('src/sass/**/*.scss', ['css', 'protractor']),
+    imageWatcher = gulp.watch('src/image/**/*', ['image']),
+    htmlWatcher = gulp.watch('src/template/**/*.html',
+      ['template', 'protractor']),
+    testWatcher = gulp.watch('test/**/*.js', ['karma', 'protractor']);
 
   jsWatcher.on('change', changeNotification);
   cssWatcher.on('change', changeNotification);
   imageWatcher.on('change', changeNotification);
   htmlWatcher.on('change', changeNotification);
   testWatcher.on('change', changeNotification);
-}
+});
 
-gulp.task('all', ['css', 'js', 'lint', 'image', 'protractor', 'karma']);
-gulp.task('default', ['watch-mode', 'all'], watch);
+gulp.task('debug', function() {
+  debug = true;
+});
+
+function changeNotification(event) {
+  console.log('File', event.path, 'was', event.type, ', running tasks...');
+}
+gulp.task('assets', ['css', 'js', 'lint', 'image']);
+gulp.task('all', ['assets', 'protractor', 'karma']);
+gulp.task('default', ['watch-mode', 'all']);
 gulp.task('server', ['connect', 'default']);
 gulp.task('test', ['debug', 'connect', 'all']);
