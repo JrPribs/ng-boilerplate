@@ -13,7 +13,7 @@ var path = require('path'),
     WATCH_MODE = 'watch',
     RUN_MODE = 'run';
 
-var mode = WATCH_MODE;
+var mode = RUN_MODE;
 
 gulp.task('js', function() {
   var jsTask = gulp.src('src/js/**/*.js');
@@ -74,58 +74,58 @@ gulp.task('karma', function() {
 });
 
 gulp.task('protractor', function(done) {
-  gulp.src(["./src/tests/*.js"])
+  gulp.src(["./src/test/ui/**/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
       args: ['--baseUrl', 'http://127.0.0.1:8080']
     }))
-    .on('end', function() { done(); })
-    .on('error', function() { done(); });
+    .on('end', function() {
+      if (mode === RUN_MODE) {
+        connect.serverClose();
+      }
+      done();
+    })
+    .on('error', function() {
+      if (mode === RUN_MODE) {
+        connect.serverClose();
+      }
+      done();
+    });
 });
 
-gulp.task('connect', function(done) {
-  gulp.watch(['index.html'], function() {
-    gulp.src(['index.html'])
-      .pipe(connect.reload());
-  });
+gulp.task('connect', function() {
+  if (mode === WATCH_MODE) {
+    gulp.watch(['index.html'], function() {
+      gulp.src(['index.html'])
+        .pipe(connect.reload());
+    });
+  }
 
   connect.server({
-    livereload: mode !== RUN_MODE
+    livereload: mode === WATCH_MODE
   });
-
-  // Hackity hack
-  if (mode === RUN_MODE) {
-    setTimeout(function() {
-      done();
-      process.exit(0);
-    }, 10000);
-  }
 });
 
-gulp.task('kill-connect', function() {
-  connect.serverClose();
-});
-
-gulp.task('run-mode', function() {
-  mode = RUN_MODE;
+gulp.task('watch-mode', function() {
+  mode = WATCH_MODE;
 });
 
 gulp.task('debug', function() {
   debug = true;
 });
 
-function changeNotification(event) {
-  console.log('File', event.path, 'was', event.type, ', running tasks...');
-}
-
 function watch() {
   var jsWatcher = gulp.watch('src/js/**/*.js',
-        ['js', 'lint', 'karma', 'protractor']),
-      cssWatcher = gulp.watch('src/sass/**/*.scss', ['css']),
+        ['js']),
+      cssWatcher = gulp.watch('src/sass/**/*.scss', ['css', 'protractor']),
       imageWatcher = gulp.watch('src/image/**/*', ['image']),
       htmlWatcher = gulp.watch('src/template/**/*.html',
         ['template', 'protractor']),
       testWatcher = gulp.watch('test/**/*.js', ['karma', 'protractor']);
+
+  function changeNotification(event) {
+    console.log('File', event.path, 'was', event.type, ', running tasks...');
+  }
 
   jsWatcher.on('change', changeNotification);
   cssWatcher.on('change', changeNotification);
@@ -135,9 +135,6 @@ function watch() {
 }
 
 gulp.task('all', ['css', 'js', 'lint', 'image', 'protractor', 'karma']);
-
-gulp.task('default', ['all'], watch);
-
+gulp.task('default', ['watch-mode', 'all'], watch);
 gulp.task('server', ['connect', 'default']);
-
-gulp.task('test', ['run-mode', 'debug', 'connect', 'all']);
+gulp.task('test', ['debug', 'connect', 'all']);
