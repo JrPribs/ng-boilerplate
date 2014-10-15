@@ -106,16 +106,23 @@ gulp.task('connect', function() {
   });
 });
 
+gulp.task('debug', function() {
+  debug = true;
+});
+
 gulp.task('watch-mode', function() {
   mode = WATCH_MODE;
 
-  var jsWatcher = gulp.watch('src/js/**/*.js',
-      ['js']),
+  var jsWatcher = gulp.watch('src/js/**/*.js', ['js']),
     cssWatcher = gulp.watch('src/sass/**/*.scss', ['css', 'protractor']),
     imageWatcher = gulp.watch('src/image/**/*', ['image']),
     htmlWatcher = gulp.watch('src/template/**/*.html',
       ['template', 'protractor']),
     testWatcher = gulp.watch('test/**/*.js', ['karma', 'protractor']);
+
+  function changeNotification(event) {
+    console.log('File', event.path, 'was', event.type, ', running tasks...');
+  }
 
   jsWatcher.on('change', changeNotification);
   cssWatcher.on('change', changeNotification);
@@ -124,15 +131,8 @@ gulp.task('watch-mode', function() {
   testWatcher.on('change', changeNotification);
 });
 
-gulp.task('debug', function() {
-  debug = true;
-});
-
-function changeNotification(event) {
-  console.log('File', event.path, 'was', event.type, ', running tasks...');
-}
 gulp.task('assets', ['css', 'js', 'lint', 'image']);
-gulp.task('all', ['assets', 'protractor', 'karma']);
+gulp.task('all', ['assets', 'karma', 'protractor']);
 gulp.task('default', ['watch-mode', 'all']);
 gulp.task('server', ['connect', 'default']);
 gulp.task('test', ['debug', 'connect', 'all']);
