@@ -7,8 +7,6 @@ exports.config = {
   //seleniumAddress: 'http://localhost:4444/wd/hub', // Using JAR instead of address
   capabilities: {
     'browserName': 'phantomjs'
-    //'browserName': 'firefox'
-    //'browserName': 'chrome'
   },
   specs: ['test/ui/**/*.spec.js']
 };
