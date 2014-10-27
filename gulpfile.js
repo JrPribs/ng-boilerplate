@@ -9,11 +9,24 @@ var path = require('path'),
     sass = require('gulp-sass'),
     imagemin = require('gulp-imagemin'),
     protractor = require("gulp-protractor").protractor,
+    program = require('commander'),
+    stylish = require('jshint-stylish'),
     debug = false,
     WATCH_MODE = 'watch',
     RUN_MODE = 'run';
 
 var mode = RUN_MODE;
+
+function list(val) {
+  return val.split(',');
+}
+
+program
+  .version('0.0.1')
+  .option('-t, --tests [glob]', 'Specify which tests to run')
+  .option('-b, --browsers <items>', 'Specify which browsers to run on', list)
+  .option('-r, --reporters <items>', 'Specify which reporters to use', list)
+  .parse(process.argv);
 
 gulp.task('js', function() {
   var jsTask = gulp.src('src/js/**/*.js');
@@ -60,7 +73,7 @@ gulp.task('image', function () {
 gulp.task('lint', function() {
   gulp.src('src/js/**/*.js')
     .pipe(jshint())
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter(stylish));
 });
 
 gulp.task('karma', function() {
@@ -68,7 +81,10 @@ gulp.task('karma', function() {
   return gulp.src(['undefined.js'])
     .pipe(karma({
       configFile: 'karma.conf.js',
-      action: mode
+      action: mode,
+      tests: program.tests,
+      reporters: program.reporters || ['progress'],
+      browsers: program.browsers || ['PhantomJS']
     }))
     .on('error', function() {});
 });
@@ -77,7 +93,10 @@ gulp.task('protractor', function(done) {
   gulp.src(["test/ui/**/*.js"])
     .pipe(protractor({
       configFile: 'protractor.conf.js',
-      args: ['--baseUrl', 'http://127.0.0.1:8080']
+      args: [
+        '--baseUrl', 'http://127.0.0.1:8080',
+        '--browser', program.browsers ? program.browsers[0] : 'phantomjs'
+      ]
     }))
     .on('end', function() {
       if (mode === RUN_MODE) {
